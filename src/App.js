@@ -8,8 +8,10 @@ class App extends Component {
     constructor(){
         super();
         this.state={
-            homeLink:'Home'
+            homeLink:'Home',
+            homeMounted:true
         }
+
     }
     onGreet(age){
         alert(age)
@@ -19,11 +21,29 @@ class App extends Component {
             homeLink:newName
         })
     }
+    onChangeHomeMounted(){
+        this.setState({
+            homeMounted:!this.state.homeMounted
+        })
+    }
   render() {
       const user={
           name:'Anna',
           hobbies:['Sports','Reading']
       };
+      let homeCmp='';
+      if(this.state.homeMounted){
+          homeCmp=(
+              <Home
+                  name={'Max'}
+                  initialAge={12}
+                  user={user}
+                  Greet={this.onGreet}
+                  ChangeLink={this.ChangeLink.bind(this)}
+                  initialName={this.state.homeLink}
+              />
+          );
+      }
     return (
       <div className="container">
           <div className='row'>
@@ -38,14 +58,13 @@ class App extends Component {
         </div>
           <div className='row'>
               <div className='col-xs-1 col-xs-offset-11'>
-                  <Home
-                      name={'Max'}
-                      initialAge={12}
-                      user={user}
-                      Greet={this.onGreet}
-                      ChangeLink={this.ChangeLink.bind(this)}
-                      initialName={this.state.homeLink}
-                  />
+                  {homeCmp}
+              </div>
+          </div>
+          <hr/>
+          <div className='row'>
+              <div className='col-xs-1 col-xs-offset-11'>
+                  <button onClick={this.onChangeHomeMounted.bind(this)} className='btn btn-primary'>(Un)mount home Component</button>
               </div>
           </div>
       </div>
